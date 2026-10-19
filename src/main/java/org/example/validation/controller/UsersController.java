@@ -5,10 +5,9 @@ import lombok.AllArgsConstructor;
 import org.example.validation.dto.UserDTO;
 import org.example.validation.model.User;
 import org.example.validation.service.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -20,6 +19,14 @@ public class UsersController {
     @PostMapping
     public User saveUser(@RequestBody @Valid UserDTO userDTO){
         return userService.saveUser(userDTO);
+    }
+
+    @ExceptionHandler
+    public String handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+        return  e.getBindingResult()
+                .getFieldErrors()
+                .get(0)
+                .getDefaultMessage();
     }
 
 }
