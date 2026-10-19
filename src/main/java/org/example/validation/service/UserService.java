@@ -5,6 +5,8 @@ import org.example.validation.dto.UserDTO;
 import org.example.validation.model.User;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class UserService {
@@ -21,5 +23,9 @@ public class UserService {
                 .password(userDTO.password())
                 .build();
         return userRepo.save(newUser);
+    }
+
+    public List<User> findUsersByAge(Integer age){
+        return userRepo.findAllByAgeAfter(age);
     }
 }
