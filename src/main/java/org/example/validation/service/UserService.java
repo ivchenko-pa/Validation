@@ -26,6 +26,6 @@ public class UserService {
     }
 
     public List<User> findUsersByAge(Integer age){
-        return userRepo.findAllByAgeAfter(age);
+        return userRepo.findAllByAge(age);
     }
 }

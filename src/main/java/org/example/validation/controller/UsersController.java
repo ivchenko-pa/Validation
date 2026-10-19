@@ -1,6 +1,8 @@
 package org.example.validation.controller;
 
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -29,10 +31,10 @@ public class UsersController {
 
     @GetMapping("/{age}")
     public List<User> findUsersByAge(@PathVariable
-                              @Pattern(regexp = "[0-9]{2}", message = "Wrong format for Age")
-                              @Min(value = 16, message = ("Age should be min 16"))
-                              Integer age) {
-        return userService.findUsersByAge( age);
+                                     @Min(value = 16, message = "Age should be min 16")
+                                     @Max(value = 99, message = "Age should be max 99")
+                                     Integer age) {
+        return userService.findUsersByAge(age);
     }
 
     @ExceptionHandler
@@ -41,6 +43,12 @@ public class UsersController {
                 .getFieldErrors()
                 .get(0)
                 .getDefaultMessage();
+    }
+
+    //ConstraintViolationException
+    @ExceptionHandler
+    public String handleConstraintViolationException(ConstraintViolationException e) {
+        return e.getMessage();
     }
 
 }

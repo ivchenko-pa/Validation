@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface UserRepo extends MongoRepository<User, String> {
     
-    List<User> findAllByAgeAfter(Integer ageAfter);
+    List<User> findAllByAge(Integer ageAfter);
 
 }
